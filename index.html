@@ -45,7 +45,6 @@
     z-index: 999;
   }
 
-  /* ══ REVEAL ══ */
   .reveal {
     opacity: 0;
     transform: translateY(32px);
@@ -53,7 +52,6 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ══ SHARED ══ */
   .section-label {
     font-size: 18px;
     letter-spacing: 3px;
@@ -113,9 +111,6 @@
   }
   .btn-dark:hover { background: var(--gold); transform: translateY(-2px); }
 
-  /* ══════════════════════════════
-     1. HERO — 도발
-  ══════════════════════════════ */
   .hero {
     min-height: 100vh;
     display: flex;
@@ -246,9 +241,6 @@
   .hero-scroll span { font-size: 9px; letter-spacing: 5px; color: rgba(139,115,85,0.6); font-weight: 500; }
   .scroll-line { width: 1px; height: 44px; background: rgba(139,115,85,0.5); animation: scrollAnim 2s ease-in-out infinite; }
 
-  /* ══════════════════════════════
-     2. LUCKY — 운이 좋은 당신
-  ══════════════════════════════ */
   .lucky-section {
     background: var(--gold);
     padding: 80px 40px;
@@ -274,9 +266,6 @@
     letter-spacing: 1px;
   }
 
-  /* ══════════════════════════════
-     MAKER STORY
-  ══════════════════════════════ */
   .maker-section {
     background: var(--paper-mid);
     padding: 130px 40px;
@@ -296,9 +285,6 @@
     text-indent: 1em;
   }
 
-  /* ══════════════════════════════
-     3. AUTHORITY — 역사적 권위
-  ══════════════════════════════ */
   .authority-section {
     background: var(--white);
     padding: 130px 40px;
@@ -389,9 +375,6 @@
 
   .authority-punch strong { color: var(--gold-light); }
 
-  /* ══════════════════════════════
-     4. SECRET — 아무나 못 하는 이유
-  ══════════════════════════════ */
   .secret-section {
     background: var(--paper);
     padding: 130px 40px;
@@ -459,9 +442,6 @@
 
   .secret-bottom strong { color: var(--red); }
 
-  /* ══════════════════════════════
-     5. PROVOCATION — 기존은 틀렸다
-  ══════════════════════════════ */
   .provoc-section {
     background: var(--ink);
     padding: 130px 40px;
@@ -505,9 +485,6 @@
 
   .provoc-punch strong { color: var(--gold-light); }
 
-  /* ══════════════════════════════
-     6. PAIN
-  ══════════════════════════════ */
   .pain-section {
     background: var(--paper-mid);
     padding: 130px 40px;
@@ -559,9 +536,6 @@
 
   .pain-answer strong { color: var(--red); }
 
-  /* ══════════════════════════════
-     7. DIFFERENCE TABLE
-  ══════════════════════════════ */
   .diff-section {
     background: var(--white);
     padding: 130px 40px;
@@ -608,7 +582,6 @@
   }
 
   .diff-table tr:last-child td { border-bottom: none; }
-
   .diff-table tr:hover td { background: rgba(139,115,85,0.02); }
   .diff-table tr:hover td.hl { background: rgba(139,115,85,0.07); }
 
@@ -622,9 +595,6 @@
 
   .diff-desc p { margin-bottom: 24px; text-indent: 1em; }
 
-  /* ══════════════════════════════
-     8. PRODUCT
-  ══════════════════════════════ */
   .product-section {
     background: var(--paper);
     padding: 130px 40px;
@@ -683,16 +653,48 @@
   .highlight-unit { font-size: 15px; color: var(--gold); font-weight: 600; }
   .highlight-label { font-size: 16px; color: var(--gray); margin-top: 10px; line-height: 2; font-weight: 300; }
 
-  /* ══════════════════════════════
-     9. REVIEWS
-  ══════════════════════════════ */
-  .review-section {
+  /* ══ PREVIEW ══ */
+  .preview-section {
     background: var(--ink);
     padding: 130px 40px;
   }
+  .preview-section .section-title { color: var(--paper); }
+  .preview-section .section-label { color: rgba(139,115,85,0.7); }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-top: 52px;
+  }
+  .preview-item {
+    background: var(--paper);
+    overflow: hidden;
+    position: relative;
+  }
+  .preview-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .preview-item:hover img { transform: scale(1.03); }
+  .preview-caption {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    font-weight: 600;
+    background: var(--paper-dark);
+    border-top: 1px solid rgba(139,115,85,0.2);
+  }
 
-  .review-section .section-title { color: var(--paper); }
-  .review-section .section-label { color: rgba(139,115,85,0.7); }
+  .review-section {
+    background: var(--paper-mid);
+    padding: 130px 40px;
+  }
+
+  .review-section .section-title { color: var(--ink); }
+  .review-section .section-label { color: var(--gold); }
 
   .review-grid {
     display: grid;
@@ -702,8 +704,8 @@
   }
 
   .review-card {
-    background: rgba(245,240,232,0.04);
-    border: 1px solid rgba(139,115,85,0.12);
+    background: var(--white);
+    border: 1px solid var(--paper-dark);
     padding: 44px 36px;
     position: relative;
   }
@@ -730,7 +732,7 @@
   .review-text {
     font-size: 16px;
     line-height: 2.3;
-    color: rgba(245,240,232,0.75);
+    color: var(--ink-light);
     font-weight: 300;
     margin-bottom: 28px;
   }
@@ -744,8 +746,8 @@
 
   .review-highlight {
     margin-top: 3px;
-    background: rgba(139,115,85,0.07);
-    border: 1px solid rgba(139,115,85,0.18);
+    background: var(--paper-dark);
+    border: 1px solid var(--paper-dark);
     padding: 44px 48px;
     grid-column: 1 / -1;
     position: relative;
@@ -765,13 +767,10 @@
   .review-highlight .review-text {
     font-size: clamp(17px, 2.5vw, 20px);
     font-weight: 400;
-    color: rgba(245,240,232,0.88);
+    color: var(--ink-light);
     margin-top: 28px;
   }
 
-  /* ══════════════════════════════
-     10. SCARCITY
-  ══════════════════════════════ */
   .scarcity-section {
     background: var(--paper-dark);
     padding: 120px 40px;
@@ -813,9 +812,6 @@
     font-size: clamp(17px, 2.5vw, 20px);
   }
 
-  /* ══════════════════════════════
-     11. PROCESS
-  ══════════════════════════════ */
   .process-section {
     background: var(--white);
     padding: 130px 40px;
@@ -837,9 +833,6 @@
   .step-content-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--ink); }
   .step-content-body { font-size: 17px; line-height: 2.1; color: var(--gray); font-weight: 300; }
 
-  /* ══════════════════════════════
-     12. CTA
-  ══════════════════════════════ */
   .cta-section {
     background: var(--ink);
     padding: 150px 40px;
@@ -911,7 +904,6 @@
     font-weight: 300;
   }
 
-  /* ══ FOOTER ══ */
   footer {
     background: var(--ink);
     border-top: 1px solid rgba(139,115,85,0.08);
@@ -922,7 +914,6 @@
   .footer-brand { font-size: 16px; letter-spacing: 5px; color: var(--gold); display: block; margin-bottom: 20px; font-weight: 600; }
   .footer-copy { font-size: 12px; color: rgba(155,142,122,0.28); line-height: 2.5; font-weight: 300; }
 
-  /* ══ ANIMATIONS ══ */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(28px); }
     to { opacity: 1; transform: translateY(0); }
@@ -933,13 +924,12 @@
     50% { opacity: 0.3; transform: scaleY(0.3); }
   }
 
-  /* ══ MOBILE ══ */
   @media (max-width: 640px) {
     .hero, .lucky-section, .authority-section, .secret-section,
     .provoc-section, .pain-section, .diff-section, .product-section,
-    .review-section, .scarcity-section, .process-section, .cta-section { padding: 80px 24px; }
+    .preview-section, .review-section, .scarcity-section, .process-section, .cta-section { padding: 80px 24px; }
     .secret-grid, .chapter-list, .chapter-desc-grid,
-    .product-highlight, .review-grid { grid-template-columns: 1fr; }
+    .product-highlight, .review-grid, .preview-grid { grid-template-columns: 1fr; }
     .secret-bottom, .review-highlight { grid-column: auto; }
     .authority-punch, .provoc-punch, .pain-answer { padding: 32px 28px; }
     .diff-table { font-size: 13px; }
@@ -1004,17 +994,11 @@
 
     <div class="maker-body reveal">
       <p>특별한 집안도, 특별한 스승도 없었습니다. 그저 어느 날, 사람이 궁금해졌습니다. 왜 저 사람은 저렇게 사는지. 왜 비슷한 조건인데 누군가는 풀리고 누군가는 막히는지. 그 질문이 저를 명리학으로 이끌었습니다.</p>
-
       <p>처음에는 책이었습니다. 고전 원서를 구해 읽고, 해석을 반복했습니다. 이론이 쌓일수록 실제 사람에게 대입하고 싶었습니다. 주변 사람들의 사주를 하나씩 읽기 시작했습니다. 틀리면 다시 봤고, 맞으면 왜 맞는지를 파고들었습니다. 그렇게 수년이 지났습니다.</p>
-
       <p>한 번은 이런 분이 왔습니다. 10년째 같은 업종에서 버티는데 왜 안 되는지 모르겠다고 했습니다. 사주를 보니 답이 보였습니다. 그분의 구조상 혼자 움직이는 일에서 재물이 열리는데, 10년을 조직 안에서만 일한 겁니다. 독립하고 반년 만에 연락이 왔습니다. 처음으로 돈이 모인다고.</p>
-
       <p>또 한 분은 연애가 안 된다고 했습니다. 괜찮은 사람을 만나면 꼭 자기가 더 좋아하게 되고, 결국 지쳐서 끝난다고. 사주를 보면 그 이유가 있습니다. 어떤 구조는 상대가 먼저 와야 관계가 안정되는데, 그걸 모르면 평생 같은 실수를 반복합니다. 그분은 그 이후로 만나는 방식을 바꿨습니다.</p>
-
       <p>어느 순간부터 소문이 났습니다. 찾아오는 사람이 생겼고, 그 사람이 지인을 데려왔습니다. 돈을 받지 않았는데도 사람들이 왔습니다. 공통적으로 같은 말을 했습니다. "이렇게 깊이 읽어준 사람은 처음이었다"고. 읽어드린 분들의 지인에게만, 조용히 알려졌습니다.</p>
-
       <p>하지만 한계가 있었습니다. 말로 전하면 기억에서 사라졌습니다. 제대로 전달하려면 글이어야 했습니다. 읽고 또 읽을 수 있어야 했습니다. 그래서 쓰기 시작했습니다. 한 사람 한 사람을 위한, 100페이지 이상의 분석을.</p>
-
       <p>당신의, 운명을 읽다는 그렇게 시작됐습니다. 여전히 하루 3명만 받습니다. 그래야 제대로 읽을 수 있기 때문입니다.</p>
     </div>
   </div>
@@ -1060,7 +1044,7 @@
   </div>
 </div>
 
-<!-- ④ SECRET -->
+<!-- ⑤ SECRET -->
 <div class="secret-section">
   <div class="inner">
     <span class="section-label reveal">아무나 할 수 없는 이유</span>
@@ -1098,7 +1082,7 @@
   </div>
 </div>
 
-<!-- ⑤ PROVOCATION -->
+<!-- ⑥ PROVOCATION -->
 <div class="provoc-section">
   <div class="inner">
     <span class="section-label reveal">왜 지금까지 답을 못 찾았는가</span>
@@ -1124,7 +1108,7 @@
   </div>
 </div>
 
-<!-- ⑥ PAIN -->
+<!-- ⑦ PAIN -->
 <div class="pain-section">
   <div class="inner">
     <span class="section-label reveal">당신의 이야기입니까</span>
@@ -1150,7 +1134,7 @@
   </div>
 </div>
 
-<!-- ⑦ DIFFERENCE -->
+<!-- ⑧ DIFFERENCE -->
 <div class="diff-section">
   <div class="inner">
     <span class="section-label reveal">기존과 무엇이 다른가</span>
@@ -1206,7 +1190,7 @@
   </div>
 </div>
 
-<!-- ⑧ PRODUCT -->
+<!-- ⑨ PRODUCT -->
 <div class="product-section">
   <div class="inner">
     <span class="section-label reveal">구성</span>
@@ -1273,7 +1257,33 @@
   </div>
 </div>
 
-<!-- ⑨ REVIEWS -->
+<!-- ⑩ PREVIEW -->
+<div class="preview-section">
+  <div class="inner">
+    <span class="section-label reveal">실제 리포트 미리보기</span>
+    <h2 class="section-title reveal">이런 리포트를<br>받게 됩니다.</h2>
+    <div class="preview-grid">
+      <div class="preview-item reveal">
+        <img src="cover.png" alt="표지" loading="lazy">
+        <p class="preview-caption">표지 — 완전 개인 맞춤 발행</p>
+      </div>
+      <div class="preview-item reveal">
+        <img src="toc.png" alt="목차" loading="lazy">
+        <p class="preview-caption">목차 — 20개 챕터 전체 구성</p>
+      </div>
+      <div class="preview-item reveal">
+        <img src="chart.png" alt="만세력+오행 차트" loading="lazy">
+        <p class="preview-caption">사주원국 만세력 + 오행 분포 차트</p>
+      </div>
+      <div class="preview-item reveal">
+        <img src="content.png" alt="본문 샘플" loading="lazy">
+        <p class="preview-caption">본문 — 깊이 있는 개인 맞춤 분석</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑪ REVIEWS -->
 <div class="review-section">
   <div class="inner">
     <span class="section-label reveal">읽고 난 후</span>
@@ -1287,7 +1297,7 @@
       </div>
       <div class="review-card reveal">
         <div class="review-stars">★★★★☆</div>
-        <p class="review-text">솔직히 처음엔 반신반의했어요. 사주가 다 거기서 거기지 싶었거든요. 근데 읽다 보니 저한테만 해당되는 내용이 계속 나와서 당황했습니다. 특히 제가 왜 특정 유형의 사람한테 계속 끌리는지 설명한 부분은 진짜 소름이었어요. 별점은 4점 주고 싶었는데 별이 없네요.</p>
+        <p class="review-text">솔직히 처음엔 반신반의했어요. 사주가 다 거기서 거기지 싶었거든요. 근데 읽다 보니 저한테만 해당되는 내용이 계속 나와서 당황했습니다. 특히 제가 왜 특정 유형의 사람한테 계속 끌리는지 설명한 부분은 진짜 소름이었어요.</p>
         <div class="review-author">박 ○ 희 · 31세 · 프리랜서</div>
       </div>
       <div class="review-card reveal">
@@ -1309,7 +1319,7 @@
   </div>
 </div>
 
-<!-- ⑩ SCARCITY -->
+<!-- ⑫ SCARCITY -->
 <div class="scarcity-section">
   <div class="scarcity-inner">
     <span class="scarcity-big reveal">하루<br>3명</span>
@@ -1323,7 +1333,7 @@
   </div>
 </div>
 
-<!-- ⑪ PROCESS -->
+<!-- ⑬ PROCESS -->
 <div class="process-section">
   <div class="inner">
     <span class="section-label reveal">신청 방법</span>
@@ -1362,7 +1372,7 @@
   </div>
 </div>
 
-<!-- ⑫ CTA -->
+<!-- ⑭ CTA -->
 <div class="cta-section">
   <div class="cta-inner">
     <span class="cta-eyebrow reveal">당신의, 운명을 읽다</span>
