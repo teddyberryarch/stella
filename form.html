@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PROJECT STELLA — 프리미엄 인생 운명 리포트</title>
+<title>당신의, 운명을 읽다</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -426,9 +426,9 @@
       <div class="field">
         <label>양력 생년월일</label>
         <div class="field-row-3">
-          <input type="number" id="year" placeholder="1990" min="1920" max="2010">
-          <input type="number" id="month" placeholder="월" min="1" max="12">
-          <input type="number" id="day" placeholder="일" min="1" max="31">
+          <select id="year"><option value="">년도</option></select>
+          <select id="month"><option value="">월</option></select>
+          <select id="day"><option value="">일</option></select>
         </div>
       </div>
 
@@ -501,6 +501,35 @@
 </div>
 
 <script>
+  // 생년월일 드롭다운 채우기
+  (function() {
+    const ySel = document.getElementById('year');
+    for (let y = 2010; y >= 1920; y--) {
+      ySel.innerHTML += `<option value="${y}">${y}년</option>`;
+    }
+    const mSel = document.getElementById('month');
+    for (let m = 1; m <= 12; m++) {
+      mSel.innerHTML += `<option value="${m}">${m}월</option>`;
+    }
+    const dSel = document.getElementById('day');
+    for (let d = 1; d <= 31; d++) {
+      dSel.innerHTML += `<option value="${d}">${d}일</option>`;
+    }
+    // 월 바뀌면 일 수 조정
+    function updateDays() {
+      const y = parseInt(ySel.value) || 2000;
+      const m = parseInt(mSel.value) || 1;
+      const max = new Date(y, m, 0).getDate();
+      const cur = parseInt(dSel.value);
+      dSel.innerHTML = '<option value="">일</option>';
+      for (let d = 1; d <= max; d++) {
+        dSel.innerHTML += `<option value="${d}"${d===cur?' selected':''}>${d}일</option>`;
+      }
+    }
+    ySel.addEventListener('change', updateDays);
+    mSel.addEventListener('change', updateDays);
+  })();
+
   // 텍스트에어리어 자동 높이
   document.querySelectorAll('textarea').forEach(el => {
     el.addEventListener('input', function() {
@@ -555,7 +584,7 @@
       });
       const data = await res.json();
 
-      if (data.success) {
+      if (res.ok) {
         document.getElementById('formSection').style.display = 'none';
         const done = document.getElementById('doneSection');
         done.style.display = 'block';
