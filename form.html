@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROJECT STELLA — 프리미엄 인생 운명 리포트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0a0e27;
+    --navy2:  #111630;
+    --navy3:  #1a2040;
+    --gold:   #c9a84c;
+    --gold2:  #e8c97a;
+    --gold3:  #f5e4b0;
+    --white:  #ffffff;
+    --gray:   rgba(255,255,255,0.55);
+    --line:   rgba(201,168,76,0.25);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── 별 배경 ── */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .stars::before, .stars::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 10%, rgba(201,168,76,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 80% 55%, rgba(201,168,76,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 62% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 75%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5%  50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 88%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 20% 25%, rgba(201,168,76,0.3) 0%, transparent 100%);
+    animation: twinkle 6s ease-in-out infinite alternate;
+  }
+  .stars::after {
+    transform: rotate(30deg) scale(1.2);
+    animation-delay: -3s;
+    opacity: 0.6;
+  }
+  @keyframes twinkle {
+    0%   { opacity: 0.6; }
+    100% { opacity: 1;   }
+  }
+
+  /* ── 성좌 장식선 ── */
+  .constellation {
+    position: fixed;
+    top: 0; right: 0;
+    width: 420px; height: 420px;
+    pointer-events: none; z-index: 0; opacity: 0.12;
+  }
+
+  /* ── 레이아웃 ── */
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 32px 100px;
+  }
+
+  /* ── 헤더 ── */
+  .brand {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeUp 0.9s ease both;
+  }
+  .brand-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: block;
+  }
+  .brand-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4.5vw, 40px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .brand-title em {
+    font-style: normal;
+    color: var(--gold2);
+  }
+  .brand-divider {
+    width: 48px; height: 1px;
+    background: var(--gold);
+    margin: 22px auto;
+    opacity: 0.6;
+  }
+  .brand-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.9;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── 폼 카드 ── */
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 48px 44px;
+    backdrop-filter: blur(12px);
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+  @media (max-width: 500px) { .card { padding: 32px 24px; } }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--gold2);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 500;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── 입력 필드 ── */
+  .field { margin-bottom: 22px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  label {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    color: var(--gold2);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  label span { color: rgba(201,168,76,0.6); font-size: 12px; }
+
+  input, select {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 1px;
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    padding: 17px 20px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    -webkit-appearance: none;
+  }
+  input::placeholder { color: rgba(255,255,255,0.35); font-size: 15px; }
+  input:focus, select:focus {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(201,168,76,0.06);
+  }
+  select option { background: var(--navy2); color: var(--white); }
+
+  textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 1px;
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 17px 20px;
+    outline: none;
+    resize: none;
+    line-height: 1.9;
+    transition: border-color 0.3s, background 0.3s;
+    overflow: hidden;
+  }
+  textarea::placeholder { color: rgba(255,255,255,0.3); font-size: 14px; }
+  textarea:focus {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* 라디오 (성별) */
+  .radio-group { display: flex; gap: 12px; }
+  .radio-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 1px;
+    padding: 17px 0;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    transition: all 0.25s;
+    user-select: none;
+  }
+  .radio-btn:has(input:checked),
+  .radio-btn.selected {
+    border-color: rgba(201,168,76,0.6);
+    background: rgba(201,168,76,0.08);
+    color: var(--gold2);
+  }
+  .radio-btn input { display: none; }
+
+  /* 안내 문구 */
+  .notice {
+    background: rgba(201,168,76,0.05);
+    border-left: 2px solid rgba(201,168,76,0.3);
+    padding: 16px 20px;
+    margin: 28px 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.9;
+  }
+  .notice strong { color: var(--gold2); font-weight: 400; }
+
+  /* 제출 버튼 */
+  .btn-submit {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    padding: 18px 0;
+    cursor: pointer;
+    transition: all 0.35s;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    z-index: 0;
+  }
+  .btn-submit:hover::before { transform: translateX(0); }
+  .btn-submit:hover { color: var(--navy); }
+  .btn-submit span { position: relative; z-index: 1; }
+  .btn-submit:disabled {
+    opacity: 0.4; cursor: not-allowed;
+  }
+  .btn-submit:disabled::before { display: none; }
+
+  /* 완료 화면 */
+  .done {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .done-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+  .done-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .done-text {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 2;
+  }
+  .done-text strong { color: var(--gold2); font-weight: 400; }
+
+  /* 에러 */
+  .error-msg {
+    display: none;
+    color: #e88;
+    font-size: 12px;
+    margin-top: 16px;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── 하단 ── */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+  .footer-line {
+    width: 32px; height: 1px;
+    background: var(--line);
+    margin: 0 auto 18px;
+  }
+  .footer-text {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 로딩 스피너 */
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- 별 배경 -->
+<div class="stars"></div>
+
+<!-- 성좌 장식 SVG -->
+<svg class="constellation" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80"  cy="60"  r="2" fill="#c9a84c"/>
+  <circle cx="180" cy="30"  r="1.5" fill="#fff"/>
+  <circle cx="300" cy="90"  r="2" fill="#c9a84c"/>
+  <circle cx="380" cy="40"  r="1.5" fill="#fff"/>
+  <circle cx="140" cy="140" r="1.5" fill="#fff"/>
+  <circle cx="260" cy="160" r="2" fill="#c9a84c"/>
+  <circle cx="360" cy="200" r="1.5" fill="#fff"/>
+  <circle cx="50"  cy="220" r="1.5" fill="#fff"/>
+  <circle cx="200" cy="260" r="2" fill="#c9a84c"/>
+  <circle cx="320" cy="300" r="1.5" fill="#fff"/>
+  <circle cx="100" cy="340" r="2" fill="#c9a84c"/>
+  <circle cx="250" cy="380" r="1.5" fill="#fff"/>
+  <line x1="80"  y1="60"  x2="180" y2="30"  stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+  <line x1="180" y1="30"  x2="300" y2="90"  stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+  <line x1="300" y1="90"  x2="380" y2="40"  stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+  <line x1="140" y1="140" x2="260" y2="160" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+  <line x1="260" y1="160" x2="360" y2="200" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+  <line x1="200" y1="260" x2="320" y2="300" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+  <line x1="100" y1="340" x2="250" y2="380" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+  <line x1="80"  y1="60"  x2="140" y2="140" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="90"  x2="260" y2="160" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+</svg>
+
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <header class="brand">
+    <span class="brand-tag">사주 명리 인생 분석 · 완전 개인 맞춤</span>
+    <h1 class="brand-title">당신의<span style="color:var(--gold)">,</span><br><em>운명을 읽다</em></h1>
+    <div class="brand-divider"></div>
+    <p class="brand-sub">
+      당신을 정확하게, 서늘하게 읽습니다.
+    </p>
+  </header>
+
+  <!-- 폼 카드 -->
+  <div class="card">
+    <div id="formSection">
+      <div class="section-label">분석 정보 입력</div>
+
+      <div class="field">
+        <label>성함</label>
+        <input type="text" id="name" placeholder="홍길동" maxlength="20">
+      </div>
+
+      <div class="field">
+        <label>성별</label>
+        <div class="radio-group">
+          <label class="radio-btn" id="btn-male" onclick="selectGender('남')">
+            <input type="radio" name="gender" value="남"> 남성
+          </label>
+          <label class="radio-btn" id="btn-female" onclick="selectGender('여')">
+            <input type="radio" name="gender" value="여"> 여성
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>양력 생년월일</label>
+        <div class="field-row-3">
+          <input type="number" id="year" placeholder="1990" min="1920" max="2010">
+          <input type="number" id="month" placeholder="월" min="1" max="12">
+          <input type="number" id="day" placeholder="일" min="1" max="31">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>태어난 시각 <span>· 모르시면 "모름" 선택</span></label>
+        <select id="hour">
+          <option value="모름">모름</option>
+          <option value="자시 (23:00~01:00)">자시 (23:00~01:00)</option>
+          <option value="축시 (01:00~03:00)">축시 (01:00~03:00)</option>
+          <option value="인시 (03:00~05:00)">인시 (03:00~05:00)</option>
+          <option value="묘시 (05:00~07:00)">묘시 (05:00~07:00)</option>
+          <option value="진시 (07:00~09:00)">진시 (07:00~09:00)</option>
+          <option value="사시 (09:00~11:00)">사시 (09:00~11:00)</option>
+          <option value="오시 (11:00~13:00)">오시 (11:00~13:00)</option>
+          <option value="미시 (13:00~15:00)">미시 (13:00~15:00)</option>
+          <option value="신시 (15:00~17:00)">신시 (15:00~17:00)</option>
+          <option value="유시 (17:00~19:00)">유시 (17:00~19:00)</option>
+          <option value="술시 (19:00~21:00)">술시 (19:00~21:00)</option>
+          <option value="해시 (21:00~23:00)">해시 (21:00~23:00)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>수신 이메일</label>
+        <input type="email" id="email" placeholder="report@email.com">
+      </div>
+
+      <div class="field">
+        <label>연락처 <span>· 카카오톡 알림 발송용</span></label>
+        <input type="tel" id="phone" placeholder="010-0000-0000">
+      </div>
+
+      <div class="field">
+        <label>지금 가장 깊은 고민 <span>· 자유롭게 적어주실수록 더 정확합니다</span></label>
+        <textarea id="concern" placeholder="무엇이든 괜찮습니다.&#10;&#10;이직해야 할지, 이 사람이 맞는 건지, 왜 나만 이렇게 힘든 건지.&#10;구체적일수록 더 정확하게 읽습니다." rows="5"></textarea>
+      </div>
+
+      <div class="field">
+        <label>가장 간절한 것 <span>· 자유롭게 적어주실수록 더 정확합니다</span></label>
+        <textarea id="desire" placeholder="막연해도 괜찮습니다.&#10;&#10;돈이 모이고 싶다, 나에게 맞는 일을 찾고 싶다,&#10;왜 나는 이런 사람인지 알고 싶다.&#10;&#10;지금 이 순간 가장 원하는 것을 적어주십시오." rows="5"></textarea>
+      </div>
+
+      <div class="notice">
+        <strong>✦ 안내사항</strong><br>
+        하루 3명만 받습니다. 그래야 제대로 읽을 수 있기 때문입니다.<br>
+        접수 완료 후 1~3일 내에 이메일로 발송해드립니다.<br>
+        100페이지 이상의 PDF 리포트입니다.
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+        <span id="btnText">리포트 신청하기</span>
+      </button>
+
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- 완료 화면 -->
+    <div class="done" id="doneSection">
+      <span class="done-icon">✦</span>
+      <div class="done-title">접수가 완료되었습니다</div>
+      <p class="done-text" id="doneText"></p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-line"></div>
+    <p class="footer-text">당신의, 운명을 읽다</p>
+  </footer>
+
+</div>
+
+<script>
+  // 텍스트에어리어 자동 높이
+  document.querySelectorAll('textarea').forEach(el => {
+    el.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+  });
+
+  let selectedGender = '';
+
+  function selectGender(g) {
+    selectedGender = g;
+    document.getElementById('btn-male').classList.toggle('selected', g === '남');
+    document.getElementById('btn-female').classList.toggle('selected', g === '여');
+  }
+
+  async function submitForm() {
+    const name  = document.getElementById('name').value.trim();
+    const year  = document.getElementById('year').value.trim();
+    const month = document.getElementById('month').value.trim();
+    const day   = document.getElementById('day').value.trim();
+    const hour  = document.getElementById('hour').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const concern = document.getElementById('concern').value.trim();
+    const desire  = document.getElementById('desire').value.trim();
+    const errorEl = document.getElementById('errorMsg');
+
+    errorEl.style.display = 'none';
+
+    if (!name || !year || !month || !day || !selectedGender || !email || !phone) {
+      errorEl.textContent = '성함, 성별, 생년월일, 이메일, 연락처는 필수 입력 항목입니다.';
+      errorEl.style.display = 'block';
+      return;
+    }
+    if (!email.includes('@')) {
+      errorEl.textContent = '올바른 이메일 주소를 입력해주세요.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span>접수 중...';
+
+    try {
+      const res = await fetch('https://web-production-7cef2.up.railway.app/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, year, month, day, hour, gender: selectedGender, email, phone, concern, desire })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('formSection').style.display = 'none';
+        const done = document.getElementById('doneSection');
+        done.style.display = 'block';
+        document.getElementById('doneText').innerHTML =
+          `<strong>${name}</strong>님의 사주를 읽기 시작했습니다.<br><br>` +
+          `1~3일 내에 <strong>${email}</strong>로<br>` +
+          `완성된 리포트를 발송해드리겠습니다.<br><br>` +
+          `기다려 주십시오.`;
+      } else {
+        errorEl.textContent = data.message;
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btnText.textContent = '리포트 신청하기';
+      }
+    } catch(e) {
+      errorEl.textContent = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btnText.textContent = '리포트 신청하기';
+    }
+  }
+
+  // 엔터키로 제출
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !document.getElementById('submitBtn').disabled) {
+      submitForm();
+    }
+  });
+</script>
+</body>
+</html>
