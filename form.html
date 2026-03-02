@@ -478,8 +478,14 @@
         100페이지 이상의 PDF 리포트입니다.
       </div>
 
-      <button class="btn-submit" id="submitBtn" onclick="submitForm()">
-        <span id="btnText">리포트 신청하기</span>
+      <div class="notice" style="margin-top:16px;border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.07)">
+        <strong style="color:var(--gold2)">💳 결제 안내</strong><br>
+        99,000원 · 카카오페이로 결제 후 분석이 시작됩니다.<br>
+        결제 완료 즉시 당신의 운명을 읽기 시작합니다 · 1~3일 내 이메일 발송
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="validateAndPay()">
+        <span id="btnText">결제 후 신청하기</span>
       </button>
 
       <div class="error-msg" id="errorMsg"></div>
@@ -488,7 +494,7 @@
     <!-- 완료 화면 -->
     <div class="done" id="doneSection">
       <span class="done-icon">✦</span>
-      <div class="done-title">접수가 완료되었습니다</div>
+      <div class="done-title">결제 및 접수 완료</div>
       <p class="done-text" id="doneText"></p>
     </div>
   </div>
@@ -500,7 +506,11 @@
 
 </div>
 
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 <script>
+  // 카카오 SDK 초기화
+  Kakao.init('abe6337f8c1ddaf0457035181578a37c');
+
   // 생년월일 드롭다운 채우기
   (function() {
     const ySel = document.getElementById('year');
@@ -546,31 +556,84 @@
     document.getElementById('btn-female').classList.toggle('selected', g === '여');
   }
 
-  async function submitForm() {
-    const name  = document.getElementById('name').value.trim();
-    const year  = document.getElementById('year').value.trim();
-    const month = document.getElementById('month').value.trim();
-    const day   = document.getElementById('day').value.trim();
-    const hour  = document.getElementById('hour').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const concern = document.getElementById('concern').value.trim();
-    const desire  = document.getElementById('desire').value.trim();
+  // ── 입력값 수집
+  function collectData() {
+    return {
+      name:    document.getElementById('name').value.trim(),
+      year:    document.getElementById('year').value.trim(),
+      month:   document.getElementById('month').value.trim(),
+      day:     document.getElementById('day').value.trim(),
+      hour:    document.getElementById('hour').value.trim(),
+      email:   document.getElementById('email').value.trim(),
+      phone:   document.getElementById('phone').value.trim(),
+      concern: document.getElementById('concern').value.trim(),
+      desire:  document.getElementById('desire').value.trim(),
+      gender:  selectedGender,
+    };
+  }
+
+  // ── 유효성 검사
+  function validate(data) {
     const errorEl = document.getElementById('errorMsg');
-
     errorEl.style.display = 'none';
-
-    if (!name || !year || !month || !day || !selectedGender || !email || !phone) {
+    if (!data.name || !data.year || !data.month || !data.day || !data.gender || !data.email || !data.phone) {
       errorEl.textContent = '성함, 성별, 생년월일, 이메일, 연락처는 필수 입력 항목입니다.';
       errorEl.style.display = 'block';
-      return;
+      return false;
     }
-    if (!email.includes('@')) {
+    if (!data.email.includes('@')) {
       errorEl.textContent = '올바른 이메일 주소를 입력해주세요.';
       errorEl.style.display = 'block';
-      return;
+      return false;
     }
+    return true;
+  }
 
+  // ── 결제 버튼 클릭
+  function validateAndPay() {
+    const data = collectData();
+    if (!validate(data)) return;
+
+    // 카카오페이 단건결제 요청
+    Kakao.Payment.ready({
+      cid: 'TC0ONETIME',             // 테스트용 CID (실서비스는 발급받은 CID로 교체)
+      partner_order_id: 'stella_' + Date.now(),
+      partner_user_id: data.email,
+      item_name: '당신의, 운명을 읽다 — 사주 명리 인생 분석 리포트',
+      quantity: 1,
+      total_amount: 99000,
+      vat_amount: 9000,
+      tax_free_amount: 0,
+      approval_url: window.location.origin + '/stella/payment_success.html',
+      fail_url:     window.location.origin + '/stella/payment_fail.html',
+      cancel_url:   window.location.origin + '/stella/payment_cancel.html',
+    }).then(function(response) {
+      // 결제 준비 성공 → 결제창 열기
+      window._stellaData = data;
+      window._stellaTid  = response.tid;
+      Kakao.Payment.approve({
+        cid: 'TC0ONETIME',
+        tid: response.tid,
+        partner_order_id: 'stella_' + Date.now(),
+        partner_user_id: data.email,
+        pg_token: new URLSearchParams(window.location.search).get('pg_token'),
+      }).then(function(approveRes) {
+        console.log('결제 승인 완료', approveRes);
+        submitToServer(data);
+      }).catch(function(err) {
+        console.error('결제 승인 실패', err);
+      });
+    }).catch(function(err) {
+      // 카카오페이 미설치 또는 오류 → 테스트 모드로 진행
+      console.warn('카카오페이 오류, 테스트 모드로 진행:', err);
+      if (confirm('카카오페이 연결 준비 중입니다.\n테스트 모드로 접수하시겠습니까?')) {
+        submitToServer(data);
+      }
+    });
+  }
+
+  // ── 서버로 데이터 전송 (결제 완료 후)
+  async function submitToServer(data) {
     const btn = document.getElementById('submitBtn');
     const btnText = document.getElementById('btnText');
     btn.disabled = true;
@@ -580,39 +643,33 @@
       const res = await fetch('https://web-production-7cef2.up.railway.app/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, year, month, day, hour, gender: selectedGender, email, phone, concern, desire })
+        body: JSON.stringify(data)
       });
-      const data = await res.json();
+      const result = await res.json();
 
       if (res.ok) {
         document.getElementById('formSection').style.display = 'none';
-        const done = document.getElementById('doneSection');
-        done.style.display = 'block';
+        document.getElementById('doneSection').style.display = 'block';
         document.getElementById('doneText').innerHTML =
-          `<strong>${name}</strong>님의 사주를 읽기 시작했습니다.<br><br>` +
-          `1~3일 내에 <strong>${email}</strong>로<br>` +
+          `<strong>${data.name}</strong>님의 사주를 읽기 시작했습니다.<br><br>` +
+          `1~3일 내에 <strong>${data.email}</strong>로<br>` +
           `완성된 리포트를 발송해드리겠습니다.<br><br>` +
           `기다려 주십시오.`;
       } else {
-        errorEl.textContent = data.message;
+        const errorEl = document.getElementById('errorMsg');
+        errorEl.textContent = result.message || '오류가 발생했습니다.';
         errorEl.style.display = 'block';
         btn.disabled = false;
-        btnText.textContent = '리포트 신청하기';
+        btnText.textContent = '결제 후 신청하기';
       }
     } catch(e) {
+      const errorEl = document.getElementById('errorMsg');
       errorEl.textContent = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
       errorEl.style.display = 'block';
       btn.disabled = false;
-      btnText.textContent = '리포트 신청하기';
+      btnText.textContent = '결제 후 신청하기';
     }
   }
-
-  // 엔터키로 제출
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !document.getElementById('submitBtn').disabled) {
-      submitForm();
-    }
-  });
 </script>
 </body>
 </html>
