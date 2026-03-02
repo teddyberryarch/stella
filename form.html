@@ -25,6 +25,7 @@
     background: var(--navy);
     color: var(--white);
     font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
     font-weight: 300;
     min-height: 100vh;
     overflow-x: hidden;
@@ -93,7 +94,7 @@
   }
   .brand-tag {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 11px;
+    font-size: 20px;
     letter-spacing: 6px;
     color: var(--gold);
     text-transform: uppercase;
@@ -120,7 +121,7 @@
     opacity: 0.6;
   }
   .brand-sub {
-    font-size: 15px;
+    font-size: 19px;
     color: var(--gray);
     line-height: 1.9;
     letter-spacing: 0.3px;
@@ -139,7 +140,7 @@
 
   .section-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-size: 20px;
     letter-spacing: 4px;
     color: var(--gold2);
     text-transform: uppercase;
@@ -163,14 +164,14 @@
 
   label {
     display: block;
-    font-size: 14px;
+    font-size: 20px;
     letter-spacing: 1.5px;
     color: var(--gold2);
     text-transform: uppercase;
     margin-bottom: 10px;
     font-weight: 500;
   }
-  label span { color: rgba(201,168,76,0.6); font-size: 12px; }
+  label span { color: rgba(201,168,76,0.6); font-size: 18px; }
 
   input, select {
     width: 100%;
@@ -179,14 +180,14 @@
     border-radius: 1px;
     color: var(--white);
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 300;
     padding: 17px 20px;
     outline: none;
     transition: border-color 0.3s, background 0.3s;
     -webkit-appearance: none;
   }
-  input::placeholder { color: rgba(255,255,255,0.35); font-size: 15px; }
+  input::placeholder { color: rgba(255,255,255,0.35); font-size: 18px; }
   input:focus, select:focus {
     border-color: rgba(201,168,76,0.6);
     background: rgba(201,168,76,0.06);
@@ -200,7 +201,7 @@
     border-radius: 1px;
     color: var(--white);
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 300;
     padding: 17px 20px;
     outline: none;
@@ -209,7 +210,7 @@
     transition: border-color 0.3s, background 0.3s;
     overflow: hidden;
   }
-  textarea::placeholder { color: rgba(255,255,255,0.3); font-size: 14px; }
+  textarea::placeholder { color: rgba(255,255,255,0.3); font-size: 20px; }
   textarea:focus {
     border-color: rgba(201,168,76,0.6);
     background: rgba(201,168,76,0.06);
@@ -224,7 +225,7 @@
     border-radius: 1px;
     padding: 17px 0;
     text-align: center;
-    font-size: 16px;
+    font-size: 19px;
     color: rgba(255,255,255,0.75);
     cursor: pointer;
     transition: all 0.25s;
@@ -244,7 +245,7 @@
     border-left: 2px solid rgba(201,168,76,0.3);
     padding: 16px 20px;
     margin: 28px 0;
-    font-size: 14px;
+    font-size: 20px;
     color: rgba(255,255,255,0.7);
     line-height: 1.9;
   }
@@ -257,7 +258,7 @@
     border: 1px solid var(--gold);
     color: var(--gold);
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 400;
     letter-spacing: 4px;
     padding: 18px 0;
@@ -306,7 +307,7 @@
     margin-bottom: 14px;
   }
   .done-text {
-    font-size: 13px;
+    font-size: 19px;
     color: var(--gray);
     line-height: 2;
   }
@@ -316,7 +317,7 @@
   .error-msg {
     display: none;
     color: #e88;
-    font-size: 12px;
+    font-size: 18px;
     margin-top: 16px;
     text-align: center;
     letter-spacing: 0.5px;
@@ -334,7 +335,7 @@
     margin: 0 auto 18px;
   }
   .footer-text {
-    font-size: 10px;
+    font-size: 15px;
     letter-spacing: 3px;
     color: rgba(255,255,255,0.2);
     text-transform: uppercase;
@@ -479,9 +480,9 @@
       </div>
 
       <div class="notice" style="margin-top:16px;border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.07)">
-        <strong style="color:var(--gold2)">💳 결제 안내</strong><br>
-        99,000원 · 카카오페이로 결제 후 분석이 시작됩니다.<br>
-        결제 완료 즉시 당신의 운명을 읽기 시작합니다 · 1~3일 내 이메일 발송
+        결제가 완료되면 당신의 운명을 읽기 시작합니다.<br>
+        1~3일 내 이메일로 발송됩니다.<br>
+        <span style="color:rgba(201,168,76,0.7);font-size:15px">결제 완료 후에는 환불이 불가합니다.</span>
       </div>
 
       <button class="btn-submit" id="submitBtn" onclick="validateAndPay()">
